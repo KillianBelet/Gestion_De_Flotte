@@ -22,8 +22,6 @@ class Agence
     #[ORM\Column(type:'string', length: 255)]
     private $lieu;
 
-
-
     public function __construct()
     {
         $this->userAgence = new ArrayCollection();
@@ -46,12 +44,12 @@ class Agence
         return $this;
     }
 
-    public function getAdmin(): ?string
+    public function getAdmin(): ?User
     {
         return $this->admin;
     }
 
-    public function setAdmin(?string $admin): self
+    public function setAdmin(?User $admin): self
     {
         $this->admin = $admin;
 
@@ -87,5 +85,6 @@ class Agence
 
         return $this;
     }
+
 
 }

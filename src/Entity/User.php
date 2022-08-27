@@ -16,32 +16,18 @@ class User
     #[ORM\ManyToOne(targetEntity: Agence::class, inversedBy: "userAgence")]
     private $agence;
 
-    #[ORM\OneToMany(targetEntity: Agence::class, mappedBy: "admin")]
-    private $adminAgence;
+    #[ORM\ManyToOne(targetEntity: Role::class, inversedBy: "userRole")]
+    private $role;
 
     #[ORM\Column(type:'text')]
     private $token;
 
-    public function __construct()
-    {
-        $this->adminAgence = new ArrayCollection();
-    }
+    #[ORM\Column(type:'boolean')]
+    private $activate;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdAgence(): ?int
-    {
-        return $this->idAgence;
-    }
-
-    public function setIdAgence(int $idAgence): self
-    {
-        $this->idAgence = $idAgence;
-
-        return $this;
     }
 
     public function getToken(): ?string
@@ -68,33 +54,28 @@ class User
         return $this;
     }
 
-    /**
-     * @return Collection<int, Agence>
-     */
-    public function getAdminAgence(): Collection
+    public function getRole(): ?Role
     {
-        return $this->adminAgence;
+        return $this->role;
     }
 
-    public function addAdminAgence(Agence $adminAgence): self
+    public function setRole(?Role $role): self
     {
-        if (!$this->adminAgence->contains($adminAgence)) {
-            $this->adminAgence[] = $adminAgence;
-            $adminAgence->setAdmin($this);
-        }
+        $this->role = $role;
 
         return $this;
     }
 
-    public function removeAdminAgence(Agence $adminAgence): self
+    public function isActivate(): ?bool
     {
-        if ($this->adminAgence->removeElement($adminAgence)) {
-            // set the owning side to null (unless already changed)
-            if ($adminAgence->getAdmin() === $this) {
-                $adminAgence->setAdmin(null);
-            }
-        }
+        return $this->activate;
+    }
+
+    public function setActivate(bool $activate): self
+    {
+        $this->activate = $activate;
 
         return $this;
     }
+
 }
